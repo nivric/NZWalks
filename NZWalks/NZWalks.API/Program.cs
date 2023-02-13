@@ -16,6 +16,7 @@ builder.Services.AddDbContext<NZWalksDbContext>(options => { options.UseSqlServe
 
 //inject repository using repository pattern
 builder.Services.AddScoped<IRegionRepository,SqlServerRegionRepository>();
+builder.Services.AddScoped<IWalksRepository, SqlServerWalksRepository>();
 
 //inject automapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);

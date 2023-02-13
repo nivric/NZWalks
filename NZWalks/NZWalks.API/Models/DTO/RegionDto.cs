@@ -1,4 +1,6 @@
-﻿namespace NZWalks.API.Models.DTO
+﻿using NZWalks.API.Models.Domain;
+
+namespace NZWalks.API.Models.DTO
 {
     public class RegionDto
     {
@@ -15,5 +17,10 @@
         public double Longitude { get; set; }
 
         public long Population { get; set; }
+
+        //Navigation Properties
+        //Creating circular reference while serializing and also not needed to be exposed
+
+        //public IEnumerable<WalkDto> Walks { get; set; }
     }
 }
