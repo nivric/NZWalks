@@ -1,11 +1,7 @@
-﻿using System.Collections;
-
-namespace NZWalks.API.Models.Domain
+﻿namespace NZWalks.API.Models.DTO
 {
-    public class Region
+    public class AddRegionRequest
     {
-        public Guid Id { get; set; }
-
         public string Code { get; set; }
 
         public string Name { get; set; }
@@ -17,9 +13,5 @@ namespace NZWalks.API.Models.Domain
         public double Longitude { get; set; }
 
         public long Population { get; set; }
-
-        //Navigation Properties
-
-        public IEnumerable<Walk> Walks { get; set; }
     }
 }
