@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
@@ -19,6 +20,7 @@ namespace NZWalks.API.Controllers
             this._mapper = mapper;
         }
         [HttpGet]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetAllRegionsAsync()
         {
             var regions = await _repository.GetAllAsync();
@@ -30,6 +32,7 @@ namespace NZWalks.API.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetRegionAsync")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetRegionAsync(Guid id)
         {
             var region = await _repository.GetAsync(id);
@@ -43,6 +46,7 @@ namespace NZWalks.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddRegion(AddRegionRequest addRegionRequest)
         {
             var newRegion = new Region
@@ -62,6 +66,7 @@ namespace NZWalks.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "writer")]
         [Route("{id:guid}")]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
         {
@@ -76,6 +81,7 @@ namespace NZWalks.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "writer")]
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id,[FromBody] UpdateRegionRequest updateRegionRequest)
         {
@@ -97,5 +103,36 @@ namespace NZWalks.API.Controllers
             var regionDto = _mapper.Map<RegionDto>(updatedRegion);
             return Ok(regionDto);
         }
+
+        //Replaced with fluent validations
+        //private bool AddRegionInputValidator(AddRegionRequest addRegionRequest)
+        //{
+        //    if (addRegionRequest == null) 
+        //    {
+        //        ModelState.AddModelError(nameof(addRegionRequest), "Non empty body required.");
+        //        return false;
+        //    }
+
+        //    if (addRegionRequest.Area <= 0) 
+        //    {
+        //        ModelState.AddModelError(nameof(addRegionRequest.Area), "The value cannot be less than or equal to zero.");
+                
+        //    }
+        //    if (string.IsNullOrWhiteSpace(addRegionRequest.Name))
+        //    {
+        //        ModelState.AddModelError(nameof(addRegionRequest.Name), "The value cannot be null or empty.");
+
+        //    }
+        //    if (addRegionRequest.Population < 0)
+        //    {
+        //        ModelState.AddModelError(nameof(addRegionRequest.Population), "The value cannot be less than zero.");
+
+        //    }
+        //    if(ModelState.ErrorCount > 0)
+        //    {
+        //        return false;
+        //    }
+        //    return true;
+        //}
     }
 }
